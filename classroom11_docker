@@ -6,3 +6,4 @@ EXPOSE 32768
 #Create a new Docker image called dynacorpweb with a tag of 1.0 using the Dockerfile.
 WORKDIR /home/ubuntu/docker
 COPY html/index.html /usr/share/nginx/html/
+# docker build -t dynacorpweb:1.0 .
