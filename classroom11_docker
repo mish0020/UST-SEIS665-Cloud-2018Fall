@@ -1,9 +1,13 @@
 # classroom 11  Docker project
 FROM nginx
 LABEL maintainer="mish0020@stthomas.edu"
-EXPOSE 32768
+EXPOSE 80
 #Copy the files from the html directory you created earlier in the assignment to the /usr/share/nginx/html directory in the container.
 #Create a new Docker image called dynacorpweb with a tag of 1.0 using the Dockerfile.
 WORKDIR /home/ubuntu/docker
 COPY html/index.html /usr/share/nginx/html/
 # docker build -t dynacorpweb:1.0 .
+# other commands :
+#  docker images
+# key DYNAWEB_DB to the value dynadb.
+# docker run -d --name dynacorpweb14 -p 80:80 -e DYNAWEB_DB="dynadb" dynacorpweb:1.0
