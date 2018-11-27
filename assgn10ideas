@@ -1,0 +1,29 @@
+RUN apt-get update && \
+    apt-get install..... && \
+    apt-get .....      \
+like that. One run command is needed. Each RUN command generate a layer - reduced efficiencies. so, try this way !!
+it's called chaining RUN command
+    
+    
+    
+    ENTRYPOINT["python"]
+    CMD ["site.py"]
+    
+    etc....
+
+
+now the question : why and how to get around the 79 char length ....?
+
+linting should have taken care of it :
+
+ nnn nnn nn \
+       next line
+ 
+post :
+sh "[ \"\$(docker ps -q -f name=classweb1)\" ] && docker kill classweb1 && docker rm classweb1"
+
+docker stop classweb1 || true ------------> IS A BAD IDEA !!! never do this !!! pipeline may be failing, but this always return TRUE !!
+
+dive utility analyze docker image..... dive <container name>
+a diagnostic tool...
+
