@@ -1,1 +1,36 @@
 
+edit theyml file to add stuff
+run this command to package it :
+need to configur aws credentials before running aws commands !!!!
+
+aws configure 
+
+access key : blah blah blah
+secrete access key : blah blah blah
+
+aws cloudformation package --template-file datapipe.yml --s3-bucket serverless-datapipe-mmishra --output-template-file packaged-datapipe.yml
+worked !!
+it gave an output :
+aws cloudformation deploy --template-file /home/ec2-user/serverless-start/packaged-datapipe.yml --stack-name <YOUR STACK NAME>
+use this to deploy above 
+
+stack name is datapipe
+aws cloudformation deploy --template-file packaged-datapipe.yml --capabilities CAPABILITY_IAM --stack-name datapipe
+# we are working in the same directory. But, i ll give it the absolute path like above (output code)
+aws cloudformation deploy --template-file /home/ec2-user/serverless-start/packaged-datapipe.yml --capabilities CAPABILITY_IAM --stack-name datapipe
+# We need to add the --capabilities CAPABILITY_IAM flag to the command because the stack will use IAM resources. Run the following command to create a new stack called datapipe:
+stack creation failed complaining access to packer. So, I gave admin access to packer user
+also, go to cloudformation dashboard and delete the datapipe stack
+I used the above existing keypairs and that's why it identified it self a s'packer' user !!!:(
+====
+datalog.py 
+=============
+import base64
+
+
+def lambda_handler(event, context):
+    for record in event['Records']:
+        # Kinesis data is base64 encoded so decode here
+        payload = base64.b64decode(record["kinesis"]["data"])
+        print("Decoded payload: " + str(payload))
+============================================================
