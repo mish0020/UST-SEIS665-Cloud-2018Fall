@@ -77,3 +77,9 @@ Resources:
           Key: 'Project'
           Value: 'SEIS665'
 =========================================================================
+
+look at the yml file : we have provided the CodeUri to the python file : CodeUri: lambda/datalog.py. That is how it making a connection
+
+
+lambda function is not running !!!! so, check from the begining......and key, user etc....
+
