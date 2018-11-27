@@ -34,3 +34,46 @@ def lambda_handler(event, context):
         payload = base64.b64decode(record["kinesis"]["data"])
         print("Decoded payload: " + str(payload))
 ============================================================
+my yml file : datapipe.yml
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Resources:
+  DatalogFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      # Need to add missing properties here
+      Handler: datalog.lambda_handler
+#The handler specifies the function method AWS will automatically call when invoking the function.
+      Runtime: python3.6
+      CodeUri: lambda/datalog.py
+#The CodeUri references the local storage location of the Lambda function
+#code file relative to the CloudFormation YAML template file you are editing.
+      MemorySize: 256
+      Timeout: 15
+      Policies:
+       - AWSLambdaKinesisExecutionRole
+    Events:
+      StreamData:
+        Type: kinesis
+        Properties:
+          Stream: DataStream # present in this template file below :-
+          StartingPosition: TRIM_HORIZON
+          BatchSize: 50
+#The Lambda function executes with the access permissions associated i
+#with the execution role. If the function needs to access
+#other AWS resources, like a Kinesis stream, the execution role needs
+#to explicitly allow the function to access these resources.
+# https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md
+#
+
+  DataStream:
+    Type: AWS::Kinesis::Stream
+    Properties:
+      Name: datastream
+      ShardCount: 1
+      Tags:
+        -
+          Key: 'Project'
+          Value: 'SEIS665'
+=========================================================================
