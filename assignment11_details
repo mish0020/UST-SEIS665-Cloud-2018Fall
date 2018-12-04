@@ -238,3 +238,16 @@ def main():
 
 if __name__ == "__main__":
     main()
+=============================================
+assignment11 discussion :
+=============================================
+jason's  yml file 
+Policies:
+- AWSLambrd..blah blah
+this is how he mentioned : Stream !GetAtt DataStream.Arn
+===========================================
+with table.batch_writer() as batch
+ for record in event['Records']
+   payload = base64.b64decode(record['kinesis']['data'])
+      batch.put_item(Item=json.loads(payload))
+!! That's it !!
