@@ -1,0 +1,25 @@
+{
+    "builders": [{
+        "type": "amazon-ebs",
+        "region" : "us-east-1",
+        "source_ami" : "ami-013be31976ca2c322",
+        "instance_type" : "t2.micro",
+        "ssh_username": "ec2-user",
+        "ami_name" : "class-proj9"
+        }],
+
+    "provisioners": [{
+        "type": "shell",
+        "inline": [
+        "sleep 30",
+        "sudo yum update -y",
+        "sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm",
+        "sudo yum-config-manager --enable epel",
+        "sudo yum install ansible --enablerepo=epel -y"
+        ]
+    },
+    {
+        "type": "ansible-local",
+        "playbook_file": "webserver.yml"
+    }]
+}
