@@ -1,0 +1,31 @@
+pipeline{
+
+agent{label 'linux'}
+    stages{
+		stage('Test'){
+			steps{
+				sh 'ant -f test.xml -v'
+				junit 'reports/*.xml'
+			}
+		}
+		stage('Build')	{
+			steps{
+				sh 'ant -f build.xml -v'
+			}
+		}
+		stage('Deploy'){
+			steps{
+				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', 
+				accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'b7bb5e0e-017e-45bf-b639-a2cde0d50dc5', 
+				secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) 	{	
+					sh "aws ec2 run-instances --image-id ami-013be31976ca2c322 --count 1 --instance-type t2.micro --key-name mano665class --security-group-ids sg-0cb733d8ddff94802 --subnet-id subnet-018844073869cc7ba --region us-east-1"
+		}	
+	}
+steps {
+sh 'aws cloudformation describe-stack-resources --stack-name jenkins --region us-east-1'
+}
+
+			}
+		}
+    }
+}

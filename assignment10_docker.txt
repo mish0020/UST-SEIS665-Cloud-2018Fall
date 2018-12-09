@@ -1,0 +1,29 @@
+# assignment 10  Docker project
+FROM ubuntu:xenial
+LABEL maintainer="mish0020@stthomas.edu"
+EXPOSE 8080
+RUN apt-get update -y
+RUN apt-get install -y build-essential
+RUN apt-get install -y python-pip
+RUN apt-get install -y python-dev
+#
+RUN mkdir /app
+COPY app/requirements.txt /app
+COPY app/site.py /app
+WORKDIR /app
+RUN pip install -r requirements.txt
+ENTRYPOINT ["python" , "app/site.py"]
+
+
+# docker build -t classweb: <use the env variable>
+# other commands :
+#  docker images
+# key DYNAWEB_DB to the value dynadb.
+# docker run -d --name dynacorpweb14 -p 80:80 -e DYNAWEB_DB="dynadb" dynacorpweb:1.0
+# docker run -d --name classweb1 -p 80:8080 classweb:1.0
+# docker run -d --rm --name classweb1 -p 80:8080 classweb:1.0
+#use ${BUILD_NUMBER} with rectanle- to get the specific file...
+#rectangle-${BUILD_NUMBER etc...
+return '<html><body><b>Working with containeris super fun!</b></body></html>'
+
+{sh 'curl $(curl 169.254.169.254/latest/meta-data/local-ipv4) | grep "super"'}
